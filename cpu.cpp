@@ -39,6 +39,18 @@ public:
             case 0x2: // STORE
                 this->ram.write(secondByte, this->readRegister(firstByte & 0x0F));
                 break;
+            case 0x3: // COPY
+                this->writeRegister(firstByte & 0x0F, this->ram.read(secondByte));
+                break;
+            case 0x4: // MOV
+                this->writeRegister(firstByte & 0x0F, this->readRegister(secondByte));
+                break;
+            case 0x5: // NUM
+                std::cout << (int)this->readRegister(firstByte & 0x0F);
+                break;
+            case 0x6: // CHR
+                std::cout << "CHR not implemented yet" << std::endl;
+                break;
             case 0xf: // HALT
                 exit(0);
             default: // Unknown Instruction

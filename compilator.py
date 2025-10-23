@@ -34,17 +34,24 @@ for i in range(len(lines)):
         case "NONE": # 0x0
             pass
         case "LOAD": # 0x1
-            binary += (1 << 12) + (parseRegister(elements[1]) << 8) + parseNumber(elements[2])
-            print(binary)
+            binary = (1 << 12) + (parseRegister(elements[1]) << 8) + parseNumber(elements[2])
         case "STORE": # 0x2
-            binary += (2 << 12) + (parseRegister(elements[1]) << 8) + parseNumber(elements[2])
+            binary = (2 << 12) + (parseRegister(elements[1]) << 8) + parseNumber(elements[2])
+        case "COPY": # 0x3
+            binary = (3 << 12) + (parseRegister(elements[1]) << 8) + parseNumber(elements[2])
+        case "MOV": # 0x4
+            binary = (4 << 12) + (parseRegister(elements[1]) << 4) + parseRegister(elements[2])
+        case "NUM": # 0x5
+            binary = (5 << 12) + (parseRegister(elements[1]) << 8)
+        case "CHR": # 0x6
+            binary = (6 << 12) + (parseRegister(elements[1]) << 8)
         case "HALT": # 0xf
-            binary += 15 << 12
+            binary = 15 << 12
         case _:
             print(f"ERROR: Unknown Operand \"{elements[0]}\"")
             exit(1)
     output_file.write(struct.pack('>H', binary))
-    print(struct.pack('>H', binary))
+    print(f"{binary:016b}")
 
 source_file.close()
 output_file.close()
