@@ -5,6 +5,7 @@
 class Rom {
 public:
     int size;
+    int instructionPointer = 0;
     Rom(int _size = 1024) {
         this->size = _size;
         this->content = std::vector<char>(this->size, 0);
