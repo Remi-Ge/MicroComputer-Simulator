@@ -2,6 +2,7 @@
 #include "cpu.cpp"
 #include "rom.cpp"
 #include <string>
+#include <vector>
 
 class Machine {
 public:
@@ -16,8 +17,19 @@ public:
     void setRegister(int index, char value) {
         this->cpu.writeRegister(index, value);
     }
+    void run() {
+        while (true) {
+            std::vector<char> instruction = rom.getInstruction(cpu.instructionPointer
+                        , this->instructionSize);
+            
+            this->cpu.execute(instruction);
+            cpu.instructionPointer += this->instructionSize;
+        }
+    }
 private:
     Cpu cpu;
     Ram ram;
     Rom rom;
+
+    const int instructionSize = 2;
 };

@@ -5,7 +5,6 @@
 class Rom {
 public:
     int size;
-    int instructionPointer = 0;
     Rom(int _size = 1024) {
         this->size = _size;
         this->content = std::vector<char>(this->size, 0);
@@ -16,6 +15,19 @@ public:
             return 0;
         }
         return content[address];
+    }
+    std::vector<char> getInstruction(int address, int instructionSize) {
+        std::vector<char> instruction;
+        for (int i = 0; i < instructionSize; i++) {
+            int addr = address + i;
+            if (addr < this->size) {
+                instruction.push_back(this->read(addr));
+            } else {
+                std::cerr << "ERROR: reached end of ROM" << std::endl;
+                exit(1);
+            }
+        }
+        return instruction;
     }
     void writeProgram(std::string filePath) {
         std::ifstream file(filePath, std::ios::binary);

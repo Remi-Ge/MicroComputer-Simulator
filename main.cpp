@@ -2,4 +2,5 @@
 
 int main() {
     Machine machine = Machine();
+    machine.run();
 }

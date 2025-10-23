@@ -3,6 +3,7 @@
 
 class Cpu {
 public:
+    int instructionPointer = 0;
     int registerCount;
     Cpu(int _registerCount = 8) {
         this->registerCount = _registerCount;
@@ -21,6 +22,9 @@ public:
             return;
         }
         this->registers[index] = value;
+    }
+    void execute(std::vector<char> instruction) {
+        std::cerr << "EXECUTE" << std::endl;
     }
 private:
     std::vector<char> registers;
