@@ -23,7 +23,7 @@ public:
             if (addr < this->size) {
                 instruction.push_back(this->read(addr));
             } else {
-                std::cerr << "ERROR: reached end of ROM" << std::endl;
+                std::cerr << "ERROR: Invalid ROM Address, Exiting" << std::endl;
                 exit(1);
             }
         }
