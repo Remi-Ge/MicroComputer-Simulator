@@ -19,8 +19,8 @@ public:
         while (true) {
             std::vector<unsigned char> instruction = rom.getInstruction(cpu.instructionPointer
                         , this->instructionSize);
-            this->cpu.execute(instruction);
             cpu.instructionPointer += this->instructionSize;
+            this->cpu.execute(instruction);
         }
     }
 private:

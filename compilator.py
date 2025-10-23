@@ -18,6 +18,13 @@ def parseNumber(number):
         exit(1)
     return result
 
+def parseRomAddress(number):
+    result = int(number)
+    if result < 0 or result >= 2 ** 12:
+        print("ERROR: value has to be between 0 and 2 ** 12")
+        exit(1)
+    return result
+
 source_path = sys.argv[1]
 output_path = sys.argv[2]
 
@@ -45,6 +52,11 @@ for i in range(len(lines)):
             binary = (5 << 12) + (parseRegister(elements[1]) << 8)
         case "CHR": # 0x6
             binary = (6 << 12) + (parseRegister(elements[1]) << 8)
+        case "GOTO": #0x7
+            binary = (7 << 12) + parseNumber(elements[1])
+        case "ADD": #0x8
+            binary = (8 << 12) + (parseRegister(elements[1]) << 8) \
+                + (parseRegister(elements[2]) << 4) + parseRegister(elements[3])
         case "HALT": # 0xf
             binary = 15 << 12
         case _:

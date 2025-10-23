@@ -14,7 +14,8 @@ public:
     }
     unsigned char readRegister(int index) {
         if (index < 0 || index >= this->registerCount) {
-            std::cerr << "Warning: Invalid Register Index, Returning 0x00" << std::endl;
+            std::cerr << "Warning: Invalid Register Index " << 
+                index << ", Returning 0x00" << std::endl;
             return 0;
         }
         return registers[index];
@@ -43,13 +44,21 @@ public:
                 this->writeRegister(firstByte & 0x0F, this->ram.read(secondByte));
                 break;
             case 0x4: // MOV
-                this->writeRegister(firstByte & 0x0F, this->readRegister(secondByte));
+                this->writeRegister(firstByte & 0x0F, this->readRegister(secondByte & 0x0F));
                 break;
             case 0x5: // NUM
                 std::cout << (int)this->readRegister(firstByte & 0x0F);
                 break;
             case 0x6: // CHR
                 std::cout << "CHR not implemented yet" << std::endl;
+                break;
+            case 0x7: // GOTO
+                this->instructionPointer = ((firstByte & 0x0F) << 8) + secondByte;
+                break;
+            case 0x8: // ADD
+                this->writeRegister(firstByte & 0x0F
+                    , this->readRegister((secondByte & 0xF0) >> 4)
+                    + this->readRegister(secondByte & 0x0F));
                 break;
             case 0xf: // HALT
                 exit(0);
