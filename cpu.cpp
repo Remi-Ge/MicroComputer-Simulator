@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <bitset>
 
 class Cpu {
 public:
@@ -24,7 +25,17 @@ public:
         this->registers[index] = value;
     }
     void execute(std::vector<char> instruction) {
-        std::cerr << "EXECUTE" << std::endl;
+        unsigned char firstByte = instruction[0];
+        unsigned char secondByte = instruction[1];
+        unsigned char operand = (firstByte & 0xF0) >> 4;
+        switch (operand) {
+            case 0x0: // NONE
+                break;
+            case 0xf: // HALT
+                exit(0);
+            default: // Unknown Instruction
+                std::cout << "Warning: Unknown Instruction" << std::endl;
+        }
     }
 private:
     std::vector<char> registers;
